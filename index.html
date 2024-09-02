@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Validator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>JSON Validator</h1>
+    <textarea id="jsonInput" placeholder="Paste your JSON here..."></textarea>
+    <button onclick="validateJSON()">Validate JSON</button>
+    <div class="result" id="result"></div>
+
+    <script src="jsonValidator.js"></script>
+    <script>
+        function validateJSON() {
+            const jsonInput = document.getElementById('jsonInput').value;
+            const result = document.getElementById('result');
+            const validationResult = jsonValidator.validate(jsonInput);
+
+            if (validationResult.valid) {
+                result.innerHTML = `<pre class="valid">Valid JSON!\n\nFormatted JSON:\n${validationResult.formatted}</pre>`;
+            } else {
+                result.innerHTML = `<div class="error">Invalid JSON: ${validationResult.error}</div>`;
+                if (validationResult.details.line !== -1) {
+                    result.innerHTML += `<div class="error">Error at line ${validationResult.details.line}, character ${validationResult.details.character}</div>`;
+                }
+            }
+        }
+    </script>
+</body>
+</html>
